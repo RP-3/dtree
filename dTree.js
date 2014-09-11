@@ -48,8 +48,8 @@ Tree.prototype.build = function(depObj){
 
 Tree.prototype.translate = function(called){
   if (!called){
-    fs.writeFileSync('temp.txt', ''); //set up file to write to
-    fs.appendFileSync('temp.txt', '#' + this.name + '\n', 'utf8');
+    fs.writeFileSync('hungryHeffalumpFrisbeeThwatInput.txt', ''); //set up file to write to
+    fs.appendFileSync('hungryHeffalumpFrisbeeThwatInput.txt', '#' + this.name + '\n', 'utf8');
     called = true;
   }
 
@@ -61,7 +61,7 @@ Tree.prototype.translate = function(called){
       depthTag = depthTag + '#';
     }
     var completeTag = depthTag + dependency;
-    fs.appendFileSync('temp.txt', completeTag + '\n', 'utf8');
+    fs.appendFileSync('hungryHeffalumpFrisbeeThwatInput.txt', completeTag + '\n', 'utf8');
 
     //recurse
     this.dependencies[dependency].translate(true);
@@ -73,17 +73,17 @@ Tree.prototype.print = function(){
   //create a translation of the tree on disk
   this.translate(false);
 
-  //generate ASCII tree from temp.txt on disk
-  var str = fs.readFileSync('temp.txt', 'utf8');
+  //generate ASCII tree from hungryHeffalumpFrisbeeThwatInput.txt on disk
+  var str = fs.readFileSync('hungryHeffalumpFrisbeeThwatInput.txt', 'utf8');
   var tree = asciitree.generate(str);
 
   //log the output from disk
-  fs.writeFileSync('output.txt', tree, 'utf8');
-  console.log('\n', chalk.green(fs.readFileSync('output.txt', 'utf8')), '\n');
+  fs.writeFileSync('outputFileToBeConsoleLoggedByFSwriteFileSync.txt', tree, 'utf8');
+  console.log('\n', chalk.green(fs.readFileSync('outputFileToBeConsoleLoggedByFSwriteFileSync.txt', 'utf8')), '\n');
 
   //delete the temp files
-  fs.unlinkSync('temp.txt');
-  fs.unlinkSync('output.txt');
+  fs.unlinkSync('hungryHeffalumpFrisbeeThwatInput.txt');
+  fs.unlinkSync('outputFileToBeConsoleLoggedByFSwriteFileSync.txt');
 };
 
 
