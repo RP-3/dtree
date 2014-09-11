@@ -16,7 +16,7 @@
     "node",
     "module"
   ],
-  "author": "RP-3",
+  "author": "RP-3 && JoshWyatt",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/RP-3/dtree/issues"
@@ -24,7 +24,6 @@
   "homepage": "https://github.com/RP-3/dtree",
   "dependencies": {
     "ascii-tree": "^0.1.1",
-    "chalk": "^0.5.1",
-    "should": "^4.0.4"
+    "chalk": "^0.5.1"
   }
 }
