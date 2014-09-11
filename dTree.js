@@ -32,7 +32,7 @@ Tree.prototype.build = function(depObj){
 
     if(this.hasCycle(dependency)){
       circular = true;
-      this.name += (" (Circular! Requires " + dependency + ")").magenta;
+      this.name += (" (Circular) Requires " + dependency).yellow;
       continue;
     }
 
@@ -55,6 +55,12 @@ Tree.prototype.build = function(depObj){
         }
         catch(err){
           console.log("Warning: Failed to load module at: ".red + path.underline.red);
+          if(moduleFail){
+            this.name += (", "+dependency).magenta;
+          }else{
+            this.name += (" (Failed) Requires " + dependency).magenta;
+          }
+
           moduleFail = true;
           
         }
@@ -96,7 +102,7 @@ Tree.prototype.print = function(){
   console.log('\n', chalk.green(tree), '\n');
 
   //log errors
-  if(moduleFail) console.log("Try 'npm install' and make sure all dependencies are loaded. \n".yellow);
+  if(moduleFail) console.log("Try 'npm install' and make sure all dependencies are loaded. dtree cannot currently handle variables in module names. \n".yellow);
   if(circular) console.log("Warning: One or more cyclcal dependencies detected. See tree for details.".yellow);
 };
 
@@ -131,6 +137,5 @@ Tree.prototype.testForCycles = function(){
   }
 
 };
-
 
 module.exports = Tree;
