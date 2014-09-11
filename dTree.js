@@ -2,6 +2,7 @@ var fetch = require('./fetchDependencies.js');
 var fs    = require('fs');
 var asciitree = require('ascii-tree');
 var chalk = require('chalk');
+var output = '';
 
 //Tree constructor
 var Tree = function(name, relativePath, parent){
@@ -30,7 +31,7 @@ Tree.prototype.build = function(depObj){
 
     if(this.dependencies[dependency].relativePath){
       var relative = this.dependencies[dependency].relativePath;
-      var path = this.dependencies[dependency].completePath; //this.dependencies[dependency].originPath ? this.dependencies[dependency].originPath + relative.replace(/^.\//, '')/*.slice(relative.indexOf("/")+1)*/ : relative;
+      var path = this.dependencies[dependency].completePath;
 
       try{
         var file = fs.readFileSync(path, 'utf8');
@@ -48,8 +49,7 @@ Tree.prototype.build = function(depObj){
 
 Tree.prototype.translate = function(called){
   if (!called){
-    fs.writeFileSync('hungryHeffalumpFrisbeeThwatInput.txt', ''); //set up file to write to
-    fs.appendFileSync('hungryHeffalumpFrisbeeThwatInput.txt', '#' + this.name + '\n', 'utf8');
+    output += '#' + this.name + '\n';
     called = true;
   }
 
@@ -61,7 +61,7 @@ Tree.prototype.translate = function(called){
       depthTag = depthTag + '#';
     }
     var completeTag = depthTag + dependency;
-    fs.appendFileSync('hungryHeffalumpFrisbeeThwatInput.txt', completeTag + '\n', 'utf8');
+    output += completeTag + '\n';
 
     //recurse
     this.dependencies[dependency].translate(true);
@@ -73,17 +73,10 @@ Tree.prototype.print = function(){
   //create a translation of the tree on disk
   this.translate(false);
 
-  //generate ASCII tree from hungryHeffalumpFrisbeeThwatInput.txt on disk
-  var str = fs.readFileSync('hungryHeffalumpFrisbeeThwatInput.txt', 'utf8');
-  var tree = asciitree.generate(str);
+  var tree = asciitree.generate(output);
 
   //log the output from disk
-  fs.writeFileSync('outputFileToBeConsoleLoggedByFSwriteFileSync.txt', tree, 'utf8');
-  console.log('\n', chalk.green(fs.readFileSync('outputFileToBeConsoleLoggedByFSwriteFileSync.txt', 'utf8')), '\n');
-
-  //delete the temp files
-  fs.unlinkSync('hungryHeffalumpFrisbeeThwatInput.txt');
-  fs.unlinkSync('outputFileToBeConsoleLoggedByFSwriteFileSync.txt');
+  console.log('\n', chalk.green(tree), '\n');
 };
 
 
