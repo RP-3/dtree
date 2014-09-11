@@ -1,12 +1,28 @@
 #!/usr/bin/env node
 
-console.log(process.argv);
+/*
+features to highlight:
+- multiple require statements -> implement unique counter
+- requirements that are never used -> more fancy regex... do this last
+- dependency cycles -> check global Dependencies
+*/
 
-var fs = require('fs');
-var asciitree = require('ascii-tree');
-var str = fs.readFileSync('input.txt', 'utf8');
-var tree = asciitree.generate(str);
 
-//log the output
-fs.writeFileSync('output.txt', tree, 'utf8');
-console.log(fs.readFileSync('output.txt', 'utf8'));
+var args  = process.argv.slice(2);
+var dTree = require('./dTree.js');
+var fs    = require('fs');
+var fetch = require('./fetchDependencies.js');
+
+function readRecurse(filePath){
+  var file = fs.readFileSync(filePath, 'utf8');
+  var localDependencies = fetch(file);
+
+  //create a dependency tree
+  var root = new dTree(filePath, filePath, null);
+  root.build(localDependencies);
+
+  root.print();
+
+}
+
+readRecurse(args[0]);

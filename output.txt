@@ -1,4 +1,0 @@
-root node
-├─ node1
-│  └─ node11
-└─ node2
