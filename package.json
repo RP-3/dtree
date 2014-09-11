@@ -3,9 +3,6 @@
   "version": "0.0.0",
   "description": "Command-line tool to view the dependency tree of any module. ",
   "main": "index.js",
-  "scripts": {
-    "test": "mocha test.js"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/RP-3/dtree.git"
@@ -25,5 +22,9 @@
   "dependencies": {
     "ascii-tree": "^0.1.1",
     "chalk": "^0.5.1"
+  },
+  "preferGlobal": "true",
+  "bin": {
+    "dtree": "index.js"
   }
 }
