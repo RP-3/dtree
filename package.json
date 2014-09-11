@@ -21,7 +21,8 @@
   "homepage": "https://github.com/RP-3/dtree",
   "dependencies": {
     "ascii-tree": "^0.1.1",
-    "chalk": "^0.5.1"
+    "chalk": "^0.5.1",
+    "colors": "^0.6.2"
   },
   "preferGlobal": "true",
   "bin": {
