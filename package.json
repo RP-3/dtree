@@ -1,6 +1,6 @@
 {
   "name": "dtree",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Command-line tool to view the dependency tree of any module. ",
   "main": "index.js",
   "repository": {
