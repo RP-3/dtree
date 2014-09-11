@@ -2,7 +2,15 @@ var fetch = require('./fetchDependencies.js');
 var fs    = require('fs');
 var asciitree = require('ascii-tree');
 var chalk = require('chalk');
+var colors = require('colors');
+
+//output variable. String to be modified as traversal occcurs
 var output = '';
+
+//error flags to only log errors once
+var circular = false;
+var moduleFail = false;
+
 
 //Tree constructor
 var Tree = function(name, relativePath, parent){
@@ -23,7 +31,8 @@ Tree.prototype.build = function(depObj){
   for(var dependency in depObj){
 
     if(this.hasCycle(dependency)){
-      console.log(chalk.red("Cyclcal dependency detected: ", chalk.red.bold(this.name),  chalk.red(" requires "),  chalk.red.bold(dependency)) );
+      circular = true;
+      this.name += (" (Circular! Requires " + dependency + ")").magenta;
       continue;
     }
 
@@ -39,8 +48,16 @@ Tree.prototype.build = function(depObj){
         this.dependencies[dependency].build(localDeps);
       }
       catch(e){
-        console.log(chalk.yellow("Warning: Failed to load module at: "), chalk.red(path));
-        console.log(chalk.yellow("Try 'npm install' and make sure all dependencies are loaded."));
+        try{
+          var file = fs.readFileSync(path+'.js', 'utf8');
+          var localDeps = fetch(file);
+          this.dependencies[dependency].build(localDeps);
+        }
+        catch(err){
+          console.log("Warning: Failed to load module at: ".red + path.underline.red);
+          moduleFail = true;
+          
+        }
       }
 
     }
@@ -60,7 +77,7 @@ Tree.prototype.translate = function(called){
     for(var i=0; i<hashes; i++){
       depthTag = depthTag + '#';
     }
-    var completeTag = depthTag + dependency;
+    var completeTag = depthTag + this.dependencies[dependency].name;
     output += completeTag + '\n';
 
     //recurse
@@ -77,6 +94,10 @@ Tree.prototype.print = function(){
 
   //log the output from disk
   console.log('\n', chalk.green(tree), '\n');
+
+  //log errors
+  if(moduleFail) console.log("Try 'npm install' and make sure all dependencies are loaded. \n".yellow);
+  if(circular) console.log("Warning: One or more cyclcal dependencies detected. See tree for details.".yellow);
 };
 
 
