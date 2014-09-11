@@ -6,17 +6,18 @@ var fs    = require('fs');
 var fetch = require('./fetchDependencies.js');
 var colors = require('colors');
 
-try{
-  fs.readFileSync(filePath, 'utf8');
-}
-catch(e){
-  console.log("Undefined or invalid filePath.".red);
-  console.log("E.g., use: dtree pathToYourFile.js \n".red);
-  process.exit();
-}
 
 function readRecurse(filePath){
-  var file = fs.readFileSync(filePath, 'utf8');
+  var file;
+  try{
+    file = fs.readFileSync(filePath, 'utf8');
+  }
+  catch(e){
+    console.log("Undefined or invalid filePath.".red);
+    console.log("E.g., use: dtree pathToYourFile.js \n".red);
+    process.exit();
+  }
+
   var localDependencies = fetch(file);
 
   //create a dependency tree
