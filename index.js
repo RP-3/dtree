@@ -5,7 +5,7 @@ var dTree = require('./dTree.js');
 var fs    = require('fs');
 var fetch = require('./fetchDependencies.js');
 var colors = require('colors');
-
+var prompt = require('prompt');
 
 function readRecurse(filePath){
   var file;
@@ -28,4 +28,56 @@ function readRecurse(filePath){
 
 }
 
-readRecurse(args[0]);
+if(args[0] === undefined){
+
+  var options = fs.readdirSync('./').filter(function(element){
+    return (element.indexOf('.js') !== -1);
+  });
+
+  if(options.length === 0){
+
+    console.log("Error: no .js files detected in this folder.".red);
+
+  }else if(options.length === 1){
+
+    console.log(("Defaulting to " + options[0]).yellow);
+    readRecurse(options[0]);
+
+  }else{
+
+    console.log('Multiple js files detected:'.yellow);
+
+    for(var i=0; i<options.length; i++){
+      console.log( (i+1) + " for " + options[i] );
+    }
+
+    var schema = {
+      properties: {
+        fileNo: {
+          pattern: /[0-9]/,
+          message: 'Enter the number corresponding to the file to dtree',
+          required: true
+        }
+      }
+    };
+
+    prompt.start();
+
+    prompt.get(schema, function(err, result){
+      
+      if(err){
+        console.log(err);
+        process.exit();
+      }
+
+      readRecurse(options[result.fileNo -1]);
+      
+    });
+
+  }
+
+}else{
+
+  readRecurse(args[0]);
+
+}
