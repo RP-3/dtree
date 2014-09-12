@@ -1,6 +1,6 @@
 {
   "name": "dtree",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Command-line tool to view the dependency tree of any module. ",
   "main": "index.js",
   "repository": {
@@ -22,7 +22,9 @@
   "dependencies": {
     "ascii-tree": "^0.1.1",
     "chalk": "^0.5.1",
-    "colors": "^0.6.2"
+    "colors": "^0.6.2",
+    "prompt": "^0.2.13",
+    "stdask": "0.0.3"
   },
   "preferGlobal": "true",
   "bin": {
