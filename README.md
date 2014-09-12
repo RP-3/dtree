@@ -1,7 +1,7 @@
 dtree
 -------------
 
-A simple command-line tool to display the dependency tree of on single file using 'require()' to require external modules. 
+A simple command-line tool to display the dependency tree of a single js file that requires external modules. 
 
 To install: 
 
@@ -9,8 +9,12 @@ To install:
 npm install -g dtree (sudo may be required).
 ```
 
-To use, just type:
+To use, navigate to the folder with your js project and type:
 
+```
+dtree
+```
+or from any folder type:
 ```
 dtree <path to your file>
 ```
