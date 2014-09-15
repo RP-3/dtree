@@ -1,3 +1,8 @@
+[![NPM](https://nodei.co/npm/dtree.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/dtree/)
+
+
+
+
 dtree
 -------------
 

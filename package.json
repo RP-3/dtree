@@ -23,11 +23,13 @@
     "ascii-tree": "^0.1.1",
     "chalk": "^0.5.1",
     "colors": "^0.6.2",
-    "prompt": "^0.2.13",
-    "stdask": "0.0.3"
+    "prompt": "^0.2.13"
   },
   "preferGlobal": "true",
   "bin": {
     "dtree": "index.js"
+  },
+  "devDependencies": {
+    "should": "^4.0.4"
   }
 }
